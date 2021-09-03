@@ -1,0 +1,210 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% load static %}
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/css/bootstrap.min.css" integrity="sha384-B0vP5xmATw1+K9KRQjQERJvTumQW0nPEzvF6L/Z6nronJ3oUOFUFpCjEUQouq2+l" crossorigin="anonymous">
+
+    <title>
+      {%if title %}
+          {{title}}
+      {%else%}
+          Welcome | Rimon Law
+      {%endif%}
+    </title>
+
+    <style>
+      /* The switch - the box around the slider */
+      .switch {
+        position: relative;
+        display: inline-block;
+        width: 60px;
+        height: 34px;
+      }
+
+      /* Hide default HTML checkbox */
+      .switch input {
+        opacity: 0;
+        width: 0;
+        height: 0;
+      }
+
+      /* The slider */
+      .slider {
+        position: absolute;
+        cursor: pointer;
+        top: 0;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        background-color: #ccc;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      .slider:before {
+        position: absolute;
+        content: "";
+        height: 26px;
+        width: 26px;
+        left: 4px;
+        bottom: 4px;
+        background-color: white;
+        -webkit-transition: .4s;
+        transition: .4s;
+      }
+
+      input:checked + .slider {
+        background-color: #2196F3;
+      }
+
+      input:focus + .slider {
+        box-shadow: 0 0 1px #2196F3;
+      }
+
+      input:checked + .slider:before {
+        -webkit-transform: translateX(26px);
+        -ms-transform: translateX(26px);
+        transform: translateX(26px);
+      }
+
+      /* Rounded sliders */
+      .slider.round {
+        border-radius: 34px;
+      }
+
+      .slider.round:before {
+        border-radius: 50%;
+      }
+    </style>
+  </head>
+  <body>
+    <section class="container-fluid mt-2 text-center">
+      <h1 class="display-4">CRON Job Control Panel</h1>
+      <div class="container p-5 text-center col-md-4 col-lg-4 col-sm-12">
+        {%for value in values%}
+          <div class="d-flex px-3 py-4 justify-content-between border border-primary rounded my-4">
+            <h3 style="text-transform: uppercase;">{{value.name}}</h3>
+            <label class="switch">
+              {%if value.status %}
+                <input checked='true' id='{{value.name}}' type="checkbox" onchange="jobs({{value.name}})" />
+              {%else%}
+                <input id='{{value.name}}' type="checkbox" onchange="jobs({{value.name}})" />
+              {%endif%}
+              <span class="slider round"></span>
+            </label>
+          </div>
+        {%endfor%}
+      </div>
+    </section>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js" integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.0/dist/js/bootstrap.bundle.min.js" integrity="sha384-Piv4xVNRyMGpqkS2by6br4gNJ7DXjqk09RmUpJ8jgGtD7zP9yug3goQfGII0yAns" crossorigin="anonymous"></script>
+
+    <script type="text/javascript">
+      function jobs(job){
+        if(job == 'cronjob'){
+          cronjob()
+        }
+
+        if(job == 'perday'){
+          perday()
+        }
+
+        if(job == 'perdate'){
+          perdate()
+        }
+
+        if(job == 'pertime'){
+          pertime()
+        }
+      }
+      async function cronjob(){
+        try{
+          await fetch('http://127.0.0.1:8000/dummy/cronjob', {
+              method: 'GET',
+              headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization': document.getElementById('cronjob').checked
+              },
+          })
+          .then((response)=>{
+              return response.json();
+          })
+          .then((data)=>{
+              console.log(data);
+          })
+        }catch(err){
+            console.log(err);
+        }
+      }
+
+
+      async function perday(){
+        try{
+          await fetch('http://127.0.0.1:8000/dummy/perday', {
+              method: 'GET',
+              headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization': document.getElementById('perday').checked
+              },
+          })
+          .then((response)=>{
+              return response.json();
+          })
+          .then((data)=>{
+              console.log(data);
+          })
+        }catch(err){
+            console.log(err);
+        }
+      }
+
+
+
+      async function perdate(){
+        try{
+          await fetch('http://127.0.0.1:8000/dummy/perdate', {
+              method: 'GET',
+              headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization': document.getElementById('perdate').checked
+              },
+          })
+          .then((response)=>{
+              return response.json();
+          })
+          .then((data)=>{
+              console.log(data);
+          })
+        }catch(err){
+            console.log(err);
+        }
+      }
+
+
+
+      async function pertime(){
+        try{
+          await fetch('http://127.0.0.1:8000/dummy/pertime', {
+              method: 'GET',
+              headers:{
+                  'Content-Type': 'application/json',
+                  'Authorization': document.getElementById('pertime').checked
+              },
+          })
+          .then((response)=>{
+              return response.json();
+          })
+          .then((data)=>{
+              console.log(data);
+          })
+        }catch(err){
+            console.log(err);
+        }
+      }
+    </script>
+  </body>
+</html>
